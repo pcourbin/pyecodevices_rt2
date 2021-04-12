@@ -6,6 +6,9 @@ pyecodevices-rt2 - Python `GCE Ecodevices RT2`_
 .. image:: https://img.shields.io/pypi/v/pyecodevices_rt2.svg
         :target: https://pypi.python.org/pypi/pyecodevices_rt2
 
+.. image:: https://img.shields.io/pypi/pyversions/pyecodevices_rt2.svg
+        :target: https://pypi.python.org/pypi/pyecodevices_rt2
+
 .. image:: https://img.shields.io/travis/pcourbin/pyecodevices_rt2.svg
         :target: https://travis-ci.com/pcourbin/pyecodevices_rt2
 
