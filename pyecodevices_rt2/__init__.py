@@ -13,7 +13,7 @@ class EcoDevicesRT2:
         self._host = host
         self._port = port
         self._apikey = apikey
-        self._apiurl = f"http://{host}:{port}/api/xdevices.json?key={apikey}"
+        self._apiurl = "http://%s:%s/api/xdevices.json?key=%s" % (str(host), str(port), str(apikey))
         self._timeout = timeout
 
     @property
