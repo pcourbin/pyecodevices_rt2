@@ -1,6 +1,10 @@
 """Get information from GCE Ecodevices RT2."""
 import requests
 
+__author__ = """Pierre COURBIN"""
+__email__ = 'pierre.courbin@gmail.com'
+__version__ = '0.1.0'
+
 
 class EcoDevicesRT2:
     """Class representing the Ecodevices RT2 and its API"""
@@ -29,8 +33,8 @@ class EcoDevicesRT2:
 
     def _request(self, params):
         r = requests.get(
-            self._apiurl, 
-            params=params, 
+            self._apiurl,
+            params=params,
             timeout=self._timeout)
         r.raise_for_status()
         content = r.json()
@@ -44,15 +48,14 @@ class EcoDevicesRT2:
 
     def ping(self) -> bool:
         try:
-            self._request({"Index": "All"})
-            return True
+            return self._request({"Index": "All"})['status'] == 'Success'
         except:
             pass
         return False
 
     def get(self, command, command_value, command_entry=None) -> int:
-        """Get value from api : http://{host}:{port}/api/xdevices.json?key={apikey}&{command}={command_value}, then get value {command_entry} in JSON response"""
+        """Get value from api : http://{host}:{port}/api/xdevices.json?key={apikey}&{command}={command_value},
+        then get value {command_entry} in JSON response."""
         response = self._request({command: command_value})
         if command_entry is not None:
             response = response.get(command_entry)
-        return response
