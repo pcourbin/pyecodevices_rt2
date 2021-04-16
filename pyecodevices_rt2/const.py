@@ -37,7 +37,6 @@ XTHL_GET_TMP_ENTRY = "THL%d-TEMP"
 XTHL_GET_HUM_ENTRY = "THL%d-HUM"
 XTHL_GET_LUM_ENTRY = "THL%d-LUM"
 
-
 X4FP_GET_LINK = "Get=FP"
 X4FP_GET_ENTRY = "FP%d Zone %d"
 X4FP_SET_MODE_LINK = "SetFP%02d=%d"
@@ -50,3 +49,7 @@ X4FP_TO_VALUE = {
     "Confort -1": 4,
     "Confort -2": 5
 }
+
+COUNTER_GET_LINK = "Get=C"
+COUNTER_GET_ENTRY = "C%d"
+COUNTER_SET_LINK = "SetC%02d=%s"

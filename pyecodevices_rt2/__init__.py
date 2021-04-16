@@ -9,6 +9,7 @@ from .virtualoutput import VirtualOutput
 from .digitalinput import DigitalInput
 from .xthl import XTHL
 from .x4fp import X4FP
+from .counter import Counter
 
 __author__ = """Pierre COURBIN"""
 __email__ = 'pierre.courbin@gmail.com'
@@ -24,5 +25,6 @@ __all__ = [
     "VirtualOutput",
     "DigitalInput",
     "XTHL",
-    "X4FP"
+    "X4FP",
+    "Counter"
 ]
