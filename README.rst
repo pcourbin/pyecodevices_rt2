@@ -20,6 +20,9 @@ pyecodevices-rt2 - Python `GCE Ecodevices RT2`_
      :target: https://pyup.io/repos/github/pcourbin/pyecodevices_rt2/
      :alt: Updates
 
+.. image:: https://codecov.io/github/pcourbin/pyecodevices_rt2/branch/master/graph/badge.svg
+     :target: https://codecov.io/github/pcourbin/pyecodevices_rt2
+
 
 | Get information from `GCE Ecodevices RT2`_.
 
@@ -32,31 +35,31 @@ This work is originally developed for use with `Home Assistant`_ and the *custom
 Features
 --------
 
-Parameters
-==========
+- Connect to the API (see `GCE Ecodevices RT2 API`_ (or `PDF`_)) and get any value::
 
-- `host`: ip or hostname
-- `port`: (default: 80)
-- `apikey`: if authentication enabled on Ecodevices RT2
-- `timeout`: (default: 3)
+        # Example with indexes
+        from pyecodevices_rt2 import EcoDevicesRT2
+        ecodevices = EcoDevicesRT2('192.168.0.20','80',"mysuperapikey")
+        ecodevices.get('Index','All') # Get all indexes as JSON
+        ecodevices.get('Index','All','Index_TI1') # Get specific value
 
-Properties
-==========
+- Define a simple object such as :ref:`Counter`, :ref:`DigitalInput`, :ref:`EnOcean Switch or Sensor`, :ref:`Post and Sub-Post`, :ref:`Relay`, :ref:`SupplierIndex`, :ref:`Toroid`, :ref:`VirtualOutput`, :ref:`X4FP (Heaters)`, :ref:`XTHL`::
 
-- `host`: return the host
-- `apikey`: return the apikey
-- `apiurl`: return the default apiurl
-
-Methods
-=======
-
-- `ping`: return true if the Ecodevices answer
-- `get`: return json or part of json from the API and parameters according to `GCE Ecodevices RT2 API`_ (or `PDF`_).
+        # Example with a Relay
+        from pyecodevices_rt2 import EcoDevicesRT2, Relay
+        ecodevices = EcoDevicesRT2('192.168.0.20','80',"mysuperapikey")
+        # Relay number 1
+        test = Relay(ecodevices, 1)
+        print("Current status: %r" % test.status)
+        test.off() # Change relay to off
+        test.on() # Change relay to on
+        test.toggle() # Invert relay status
+        test.status = True # Change relay to on
 
 Credits
 -------
 
-| This work is based on the work of `Aohzan`_.
+| This work is inspired by the work of `Aohzan`_.
 | This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
