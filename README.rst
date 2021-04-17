@@ -20,9 +20,8 @@ pyecodevices-rt2 - Python `GCE Ecodevices RT2`_
      :target: https://pyup.io/repos/github/pcourbin/pyecodevices_rt2/
      :alt: Updates
 
-.. image:: https://codecov.io/github/pcourbin/pyecodevices_rt2/branch/master/graph/badge.svg
-     :target: https://codecov.io/github/pcourbin/pyecodevices_rt2
-
+.. image:: https://codecov.io/gh/pcourbin/pyecodevices_rt2/branch/main/graph/badge.svg
+     :target: https://codecov.io/gh/pcourbin/pyecodevices_rt2
 
 | Get information from `GCE Ecodevices RT2`_.
 
