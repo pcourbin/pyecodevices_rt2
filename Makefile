@@ -56,6 +56,11 @@ test: ## run tests quickly with the default Python
 test-all: ## run tests on every Python version with tox
 	tox
 
+test-pypi:
+	python setup.py sdist
+	python setup.py bdist_wheel
+	twine check dist/*
+
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source pyecodevices_rt2 -m pytest
 	coverage report -m

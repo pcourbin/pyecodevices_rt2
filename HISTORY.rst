@@ -6,7 +6,7 @@ History
 1.1.0 (2021-04-17)
 ------------------
 
-* Add classes such as :ref:`Counter`, :ref:`DigitalInput`, :ref:`EnOcean Switch or Sensor`, :ref:`Post and Sub-Post`, :ref:`Relay`, :ref:`SupplierIndex`, :ref:`Toroid`, :ref:`VirtualOutput`, :ref:`X4FP (Heaters)`, :ref:`XTHL` for ease of use
+* Add classes such as `Counter`, `DigitalInput`, `EnOcean Switch or Sensor`, `Post and Sub-Post`, `Relay`, `SupplierIndex`, `Toroid`, `VirtualOutput`, `X4FP (Heaters)`, `XTHL` for ease of use
 * Add tests to cover majority of code
 * Add full examples in documentation
 

@@ -43,7 +43,7 @@ Features
         ecodevices.get('Index','All') # Get all indexes as JSON
         ecodevices.get('Index','All','Index_TI1') # Get specific value
 
-- Define a simple object such as :ref:`Counter`, :ref:`DigitalInput`, :ref:`EnOcean Switch or Sensor`, :ref:`Post and Sub-Post`, :ref:`Relay`, :ref:`SupplierIndex`, :ref:`Toroid`, :ref:`VirtualOutput`, :ref:`X4FP (Heaters)`, :ref:`XTHL`::
+- Define a simple object such as `Counter`, `DigitalInput`, `EnOcean Switch or Sensor`, `Post and Sub-Post`, `Relay`, `SupplierIndex`, `Toroid`, `VirtualOutput`, `X4FP (Heaters)`, `XTHL`::
 
         # Example with a Relay
         from pyecodevices_rt2 import EcoDevicesRT2, Relay
