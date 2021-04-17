@@ -42,6 +42,6 @@ class AbstractSwitch:
         return response[RESPONSE_ENTRY] == RESPONSE_SUCCESS_VALUE
 
     def toggle(self) -> bool:
-        """Toggle a VirtualOutput."""
+        """Toggle a AbstractSwitch."""
         response = self._ecort2.get(self._toggle_link % (self._id))
         return response[RESPONSE_ENTRY] == RESPONSE_SUCCESS_VALUE

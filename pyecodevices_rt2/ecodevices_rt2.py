@@ -74,15 +74,3 @@ class EcoDevicesRT2:
                     "Ecodevices RT2 API error, key '%s' not in return from command: %s \nValues: %s"
                     % (command_entry, complete_command, response))
         return response
-
-    def getEnOceanSwitch(self, id: int):
-        from . import EnOceanSwitch
-        return EnOceanSwitch(self, id)
-
-    def getEnOceanSensor(self, id: int):
-        from . import EnOceanSensor
-        return EnOceanSensor(self, id)
-
-    def getToroid(self, id: int):
-        from . import Toroid
-        return Toroid(self, id)

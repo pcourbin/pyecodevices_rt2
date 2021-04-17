@@ -8,6 +8,7 @@ Welcome to pyecodevices-rt2's documentation!
    readme
    installation
    usage
+   modules
    contributing
    authors
    history
