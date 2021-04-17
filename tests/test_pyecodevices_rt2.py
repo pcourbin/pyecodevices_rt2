@@ -43,15 +43,18 @@ Test 'ping' not started.""")
 
 
 def test_ecodevicesrt2(test_ping):
-    assert isinstance(test_ping.host, str)
-    assert isinstance(test_ping.apikey, str)
-    assert isinstance(test_ping.apiurl, str)
+    if (test_ping is None):
+        _LOGGER.warning("No connexion. Test 'Counter' not started.")
+    else:
+        assert isinstance(test_ping.host, str)
+        assert isinstance(test_ping.apikey, str)
+        assert isinstance(test_ping.apiurl, str)
 
-    assert test_ping.get("Index", "All", PRODUCT_ENTRY) == PRODUCT_VALUE
+        assert test_ping.get("Index", "All", PRODUCT_ENTRY) == PRODUCT_VALUE
 
-    # Test exceptions
-    with pytest.raises(EcoDevicesRT2RequestError):
-        test_ping.get("Index", "All", "EcoDevicesRT2RequestError")
+        # Test exceptions
+        with pytest.raises(EcoDevicesRT2RequestError):
+            test_ping.get("Index", "All", "EcoDevicesRT2RequestError")
 
 
 def test_counter(test_ping):
