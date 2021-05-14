@@ -71,6 +71,32 @@ Features
         test.toggle() # Invert relay status
         test.status = True # Change relay to on
 
+- Play with cached variables. You can defined a maximum value (in milliseconds) during which you consider an API value do not need to be updated::
+
+        from pyecodevices_rt2 import EcoDevicesRT2
+
+        # Create the ecodevices object with a default "cached" value of 1s
+        ecodevices = EcoDevicesRT2('192.168.0.20','80',"mysuperapikey", cached_ms=1000)
+
+        print("# All Indexes")
+        print(ecodevices.get('Index','All')) # Call the API
+        print(ecodevices.get('Index','All')) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+        print(ecodevices.get('Index','All',cached_ms=0)) # Force to call the API even if the last value was retrieved less than 1s (1000ms) ago
+
+        # For each property in other objects, you can call "get_PROPERTY(cached_ms=XX)"
+        # Example with Counter 1:
+        test = Counter(ecodevices, 1)
+        print("Current value: %d" % test.value) # Call the API
+        print("Current price: %d" % test.price) # Call the API
+        print("Current value: %d" % test.value) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+        print("Current price: %d" % test.price) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+        print("Current value: %d" % test.get_value()) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+        print("Current price: %d" % test.get_price()) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+        print("Current value: %d" % test.get_value(cached_ms=0)) # Force to call the API even if the last value was retrieved less than 1s (1000ms) ago
+        print("Current price: %d" % test.get_price(cached_ms=0)) # Force to call the API even if the last value was retrieved less than 1s (1000ms) ago
+        print("Current value: %d" % test.get_value(cached_ms=2000)) # Do not call the API if the last value was retrieved less than 2s (2000ms) ago
+        print("Current price: %d" % test.get_price(cached_ms=2000)) # Do not call the API if the last value was retrieved less than 2s (2000ms) ago
+
 Credits
 -------
 
