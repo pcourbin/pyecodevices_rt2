@@ -50,7 +50,9 @@ This work is originally developed for use with `Home Assistant`_ and the *custom
 Features
 --------
 
-- Connect to the API (see `GCE Ecodevices RT2 API`_ (or `PDF`_)) and get any value::
+- Connect to the API (see `GCE Ecodevices RT2 API`_ (or `PDF`_)) and get any value:
+
+.. code-block:: python
 
         # Example with indexes
         from pyecodevices_rt2 import EcoDevicesRT2
@@ -58,7 +60,9 @@ Features
         ecodevices.get('Index','All') # Get all indexes as JSON
         ecodevices.get('Index','All','Index_TI1') # Get specific value
 
-- Define a simple object such as `Counter`, `DigitalInput`, `EnOcean Switch or Sensor`, `Post and Sub-Post`, `Relay`, `SupplierIndex`, `Toroid`, `VirtualOutput`, `X4FP (Heaters)`, `XTHL`::
+- Define a simple object such as `Counter`, `DigitalInput`, `EnOcean Switch or Sensor`, `Post and Sub-Post`, `Relay`, `SupplierIndex`, `Toroid`, `VirtualOutput`, `X4FP (Heaters)`, `XTHL`:
+
+.. code-block:: python
 
         # Example with a Relay
         from pyecodevices_rt2 import EcoDevicesRT2, Relay
@@ -71,7 +75,9 @@ Features
         test.toggle() # Invert relay status
         test.status = True # Change relay to on
 
-- Play with cached variables. You can defined a maximum value (in milliseconds) during which you consider an API value do not need to be updated::
+- Play with cached variables. You can defined a maximum value (in milliseconds) during which you consider an API value do not need to be updated:
+
+.. code-block:: python
 
         from pyecodevices_rt2 import EcoDevicesRT2
 
