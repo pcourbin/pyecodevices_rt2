@@ -1,8 +1,5 @@
 from . import EcoDevicesRT2
-
-from .const import (
-    RT2_API
-)
+from .const import RT2_API
 
 
 class DigitalInput:
@@ -12,7 +9,9 @@ class DigitalInput:
         self._ecort2 = ecort2
         self._id = id
         self._value_get_link = RT2_API["digitalinput"]["status"]["get"]["link"]
-        self._value_get_entry = RT2_API["digitalinput"]["status"]["get"]["entry"] % (self._id)
+        self._value_get_entry = RT2_API["digitalinput"]["status"]["get"]["entry"] % (
+            self._id
+        )
 
     def get_status(self, cached_ms: int = None) -> bool:
         """Return the current DigitalInput status."""

@@ -4,7 +4,9 @@ from . import EcoDevicesRT2
 class AbstractSensor:
     """Class representing an AbstractSensor"""
 
-    def __init__(self, ecort2: EcoDevicesRT2, id: int, get_link: str, get_entry: str) -> None:
+    def __init__(
+        self, ecort2: EcoDevicesRT2, id: int, get_link: str, get_entry: str
+    ) -> None:
         self._ecort2 = ecort2
         self._id = id
         self._get_link = get_link

@@ -1,22 +1,20 @@
-from . import EcoDevicesRT2, AbstractSensor
-
-from .const import (
-    RT2_API
-)
+from . import AbstractSensor
+from . import EcoDevicesRT2
+from .const import RT2_API
 
 
 class SupplierIndex(AbstractSensor):
-    """Class representing the SupplierIndex """
+    """Class representing the SupplierIndex"""
 
     def __init__(self, ecort2: EcoDevicesRT2, id: int) -> None:
         value_get_link = RT2_API["supplierindex"]["index"]["get"]["link"]
         value_get_entry = RT2_API["supplierindex"]["index"]["get"]["entry"]
-        super(SupplierIndex, self).__init__(
-            ecort2, id,
-            value_get_link, value_get_entry)
+        super(SupplierIndex, self).__init__(ecort2, id, value_get_link, value_get_entry)
 
         self._price_get_link = RT2_API["supplierindex"]["price"]["get"]["link"]
-        self._price_get_entry = RT2_API["supplierindex"]["price"]["get"]["entry"] % (self._id)
+        self._price_get_entry = RT2_API["supplierindex"]["price"]["get"]["entry"] % (
+            self._id
+        )
 
     def get_price(self, cached_ms: int = None) -> float:
         """Return the price of supplier index."""

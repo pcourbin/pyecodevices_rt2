@@ -68,9 +68,9 @@ coverage: ## check code coverage quickly with the default Python
 	$(BROWSER) htmlcov/index.html
 
 coverage-publish: SHELL:=/bin/bash ## push coverage results on https://codecov.io/. Define 'CODECOV_TOKEN="MYTOKEN"' in .env file
-coverage-publish: 
+coverage-publish:
 	set -a && . ./.env && set +a && bash <(curl -s https://codecov.io/bash)
-	
+
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/pyecodevices_rt2.rst
 	rm -f docs/modules.rst

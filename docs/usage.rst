@@ -12,17 +12,48 @@ Parameters::
 - `port`: (default: 80)
 - `apikey`: if authentication enabled on Ecodevices RT2
 - `timeout`: (default: 3)
+- `cached_ms`: (default: 0), maximum delay in milliseconds during which we consider the value do not need to be updated using the API.
 
 Properties::
 
-- `host`: return the host
-- `apikey`: return the apikey
-- `apiurl`: return the default apiurl
+- `host`: the host
+- `apikey`: the apikey
+- `apiurl`: the default apiurl
+- `cached_ms`: the value of the maximum cached value in milliseconds
 
 Methods::
 
 - `ping`: return true if the Ecodevices answer
 - `get`: return json or part of json.
+
+Using cached values
+-------------------
+You can defined a maximum value (in milliseconds) during which you consider an API value do not need to be updated::
+
+    from pyecodevices_rt2 import EcoDevicesRT2
+
+    # Create the ecodevices object with a default "cached" of 1s
+    ecodevices = EcoDevicesRT2('192.168.0.20','80',"mysuperapikey", cached_ms=1000)
+
+    print("# All Indexes")
+    print(ecodevices.get('Index','All')) # Call the API
+    print(ecodevices.get('Index','All')) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+    print(ecodevices.get('Index','All',cached_ms=0)) # Force to call the API even if the last value was retrieved less than 1s (1000ms) ago
+
+    # For each property in other objects, you can call "get_PROPERTY(cached_ms=XX)"
+    # Example with Counter 1:
+    test = Counter(ecodevices, 1)
+    print("Current value: %d" % test.value) # Call the API
+    print("Current price: %d" % test.price) # Call the API
+    print("Current value: %d" % test.value) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+    print("Current price: %d" % test.price) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+    print("Current value: %d" % test.get_value()) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+    print("Current price: %d" % test.get_price()) # Do not call the API since the last value was retrieved less than 1s (1000ms) ago
+    print("Current value: %d" % test.get_value(cached_ms=0)) # Force to call the API even if the last value was retrieved less than 1s (1000ms) ago
+    print("Current price: %d" % test.get_price(cached_ms=0)) # Force to call the API even if the last value was retrieved less than 1s (1000ms) ago
+    print("Current value: %d" % test.get_value(cached_ms=2000)) # Do not call the API if the last value was retrieved less than 2s (2000ms) ago
+    print("Current price: %d" % test.get_price(cached_ms=2000)) # Do not call the API if the last value was retrieved less than 2s (2000ms) ago
+
 
 
 Advanced/API usage
@@ -63,7 +94,7 @@ To use pyecodevices-rt2 in a project, you can directly use parameters from the `
     print(ecodevices.get('Get','FP', 'FP1 Zone 1'))
     print("# Force First Zone of First FP module to be on 'Confort' mode and get status")
     print(ecodevices.get('SetFP01','0', 'status'))
-    
+
 Counter
 -------
 You can define a Counter (see from the `GCE Ecodevices RT2 API`_ (or `PDF`_))::

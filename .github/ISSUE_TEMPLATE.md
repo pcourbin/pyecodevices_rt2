@@ -1,6 +1,6 @@
-* pyecodevices-rt2 version:
-* Python version:
-* Operating System:
+-   pyecodevices-rt2 version:
+-   Python version:
+-   Operating System:
 
 ### Description
 

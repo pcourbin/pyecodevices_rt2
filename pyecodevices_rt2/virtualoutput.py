@@ -1,8 +1,6 @@
-from . import EcoDevicesRT2, AbstractSwitch
-
-from .const import (
-    RT2_API
-)
+from . import AbstractSwitch
+from . import EcoDevicesRT2
+from .const import RT2_API
 
 
 class VirtualOutput(AbstractSwitch):
@@ -15,6 +13,11 @@ class VirtualOutput(AbstractSwitch):
         value_set_link_off = RT2_API["virtualoutput"]["value"]["set"]["link_off"]
         value_set_link_toggle = RT2_API["virtualoutput"]["value"]["set"]["link_toggle"]
         super(VirtualOutput, self).__init__(
-            ecort2, id,
-            value_get_link, value_get_entry,
-            value_set_link_on, value_set_link_off, value_set_link_toggle)
+            ecort2,
+            id,
+            value_get_link,
+            value_get_entry,
+            value_set_link_on,
+            value_set_link_off,
+            value_set_link_toggle,
+        )

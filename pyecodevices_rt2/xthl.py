@@ -1,8 +1,5 @@
 from . import EcoDevicesRT2
-
-from .const import (
-    RT2_API
-)
+from .const import RT2_API
 
 
 class XTHL:
@@ -13,11 +10,17 @@ class XTHL:
         self._id = id
 
         self._temperature_get_link = RT2_API["xthl"]["temperature"]["get"]["link"]
-        self._temperature_get_entry = RT2_API["xthl"]["temperature"]["get"]["entry"] % (self._id)
+        self._temperature_get_entry = RT2_API["xthl"]["temperature"]["get"]["entry"] % (
+            self._id
+        )
         self._humidity_get_link = RT2_API["xthl"]["humidity"]["get"]["link"]
-        self._humidity_get_entry = RT2_API["xthl"]["humidity"]["get"]["entry"] % (self._id)
+        self._humidity_get_entry = RT2_API["xthl"]["humidity"]["get"]["entry"] % (
+            self._id
+        )
         self._luminosity_get_link = RT2_API["xthl"]["luminosity"]["get"]["link"]
-        self._luminosity_get_entry = RT2_API["xthl"]["luminosity"]["get"]["entry"] % (self._id)
+        self._luminosity_get_entry = RT2_API["xthl"]["luminosity"]["get"]["entry"] % (
+            self._id
+        )
 
     def get_temperature(self, cached_ms: int = None) -> bool:
         """Return the current XTHL temperature."""

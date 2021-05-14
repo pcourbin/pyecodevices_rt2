@@ -1,10 +1,7 @@
 from . import EcoDevicesRT2
-
-from .const import (
-    RT2_API,
-    RESPONSE_ENTRY,
-    RESPONSE_SUCCESS_VALUE,
-)
+from .const import RESPONSE_ENTRY
+from .const import RESPONSE_SUCCESS_VALUE
+from .const import RT2_API
 
 
 class Counter:

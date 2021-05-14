@@ -1,33 +1,47 @@
 from . import EcoDevicesRT2
-
-from .const import (
-    RT2_API
-)
+from .const import RT2_API
 
 
 class Post:
-    """Class representing the Post or Sub-Post """
+    """Class representing the Post or Sub-Post"""
 
-    def __init__(self, ecort2: EcoDevicesRT2, id_post: int, id_subpost: int = None) -> None:
+    def __init__(
+        self, ecort2: EcoDevicesRT2, id_post: int, id_subpost: int = None
+    ) -> None:
         self._ecort2 = ecort2
         self._id_post = id_post
         self._id_subpost = id_subpost
-        if (id_subpost is not None):
+        if id_subpost is not None:
             self._type = "subpost"
         else:
             self._id_subpost = ""
             self._type = "post"
 
         self._instant_get_link = RT2_API[self._type]["instant"]["get"]["link"]
-        self._instant_get_entry = RT2_API[self._type]["instant"]["get"]["entry"] % (self._id_post, self._id_subpost)
+        self._instant_get_entry = RT2_API[self._type]["instant"]["get"]["entry"] % (
+            self._id_post,
+            self._id_subpost,
+        )
         self._index_get_link = RT2_API[self._type]["index"]["get"]["link"]
-        self._index_get_entry = RT2_API[self._type]["index"]["get"]["entry"] % (self._id_post, self._id_subpost)
+        self._index_get_entry = RT2_API[self._type]["index"]["get"]["entry"] % (
+            self._id_post,
+            self._id_subpost,
+        )
         self._index_day_get_link = RT2_API[self._type]["index_day"]["get"]["link"]
-        self._index_day_get_entry = RT2_API[self._type]["index_day"]["get"]["entry"] % (self._id_post, self._id_subpost)
+        self._index_day_get_entry = RT2_API[self._type]["index_day"]["get"]["entry"] % (
+            self._id_post,
+            self._id_subpost,
+        )
         self._price_get_link = RT2_API[self._type]["price"]["get"]["link"]
-        self._price_get_entry = RT2_API[self._type]["price"]["get"]["entry"] % (self._id_post, self._id_subpost)
+        self._price_get_entry = RT2_API[self._type]["price"]["get"]["entry"] % (
+            self._id_post,
+            self._id_subpost,
+        )
         self._price_day_get_link = RT2_API[self._type]["price_day"]["get"]["link"]
-        self._price_day_get_entry = RT2_API[self._type]["price_day"]["get"]["entry"] % (self._id_post, self._id_subpost)
+        self._price_day_get_entry = RT2_API[self._type]["price_day"]["get"]["entry"] % (
+            self._id_post,
+            self._id_subpost,
+        )
 
     def get_instant(self, cached_ms: int = None) -> float:
         """Return the instant power of post/subpost."""
