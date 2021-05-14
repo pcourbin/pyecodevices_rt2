@@ -10,8 +10,11 @@ class AbstractSensor:
         self._get_link = get_link
         self._get_entry = get_entry
 
+    def get_value(self, cached_ms: int = None) -> float:
+        """Return the current AbstractSensor status."""
+        response = self._ecort2.get(self._get_link, cached_ms=cached_ms)
+        return response[self._get_entry % (self._id)]
+
     @property
     def value(self) -> float:
-        """Return the current AbstractSensor status."""
-        response = self._ecort2.get(self._get_link)
-        return response[self._get_entry % (self._id)]
+        return self.get_value()

@@ -18,11 +18,14 @@ class AbstractSwitch:
         self._off_link = off_link
         self._toggle_link = toggle_link
 
+    def get_status(self, cached_ms: int = None) -> bool:
+        """Return the current AbstractSwitch status."""
+        response = self._ecort2.get(self._get_link, cached_ms=cached_ms)
+        return response[self._get_entry % (self._id)] == 1
+
     @property
     def status(self) -> bool:
-        """Return the current AbstractSwitch status."""
-        response = self._ecort2.get(self._get_link)
-        return response[self._get_entry % (self._id)] == 1
+        return self.get_status()
 
     @status.setter
     def status(self, value: bool):

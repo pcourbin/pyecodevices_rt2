@@ -5,12 +5,9 @@ from .exceptions import (
 )
 
 from .const import (
-    X4FP_GET_LINK,
-    X4FP_GET_ENTRY,
-    X4FP_SET_MODE_LINK,
+    RT2_API,
     RESPONSE_ENTRY,
     RESPONSE_SUCCESS_VALUE,
-    X4FP_TO_VALUE,
 )
 
 
@@ -23,16 +20,24 @@ class X4FP:
         self._zone_id = zone_id
         self._fp_value = (self._module_id - 1) * 4 + self._zone_id
 
+        self._value_get_link = RT2_API["x4fp"]["value"]["get"]["link"]
+        self._value_get_entry = RT2_API["x4fp"]["value"]["get"]["entry"] % (self._module_id, self._zone_id)
+        self._value_set_link = RT2_API["x4fp"]["value"]["set"]["link"]
+        self._value_get_convert = RT2_API["x4fp"]["value"]["get"]["convert"]
+
+    def get_mode(self, cached_ms: int = None) -> int:
+        """Return the current X4FP mode."""
+        response = self._ecort2.get(self._value_get_link, cached_ms=cached_ms)
+        return self._value_get_convert[response[self._value_get_entry]]
+
     @property
     def mode(self) -> int:
-        """Return the current X4FP mode."""
-        response = self._ecort2.get(X4FP_GET_LINK)
-        return X4FP_TO_VALUE[response[X4FP_GET_ENTRY % (self._module_id, self._zone_id)]]
+        return self.get_mode()
 
     @mode.setter
     def mode(self, value: int):
         """Change the current X4FP mode."""
-        response = self._ecort2.get(X4FP_SET_MODE_LINK % (self._fp_value, value))
+        response = self._ecort2.get(self._value_set_link % (self._fp_value, value))
         if (response[RESPONSE_ENTRY] != RESPONSE_SUCCESS_VALUE or value > 5):
             raise EcoDevicesRT2RequestError(
                 "Ecodevices RT2 API error, unable to change the mode for FP extention %d, Zone %d to %d"

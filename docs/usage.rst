@@ -215,6 +215,10 @@ You can define a VirtualOutput (see from the `GCE Ecodevices RT2 API`_ (or `PDF`
     # VirtualOutput number 1
     test = VirtualOutput(ecodevices, 1)
     print("Current status: %r" % test.status)
+    test.off() # Change virtualoutput to off
+    test.on() # Change virtualoutput to on
+    test.toggle() # Invert virtualoutput status
+    test.status = True # Change virtualoutput to on
 
 
 X4FP (Heaters)

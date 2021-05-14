@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime, timedelta
 
 from .exceptions import (
     EcoDevicesRT2ConnectError,
@@ -11,18 +12,21 @@ from .const import (
     INDEX_GET_LINK,
     RESPONSE_ENTRY,
     RESPONSE_SUCCESS_VALUE,
+    RT2_API_GET_LINK_CACHED,
 )
 
 
 class EcoDevicesRT2:
     """Class representing the Ecodevices RT2 and its API"""
 
-    def __init__(self, host: str, port: int = 80, apikey: str = "", timeout: int = 10):
+    def __init__(self, host: str, port: int = 80, apikey: str = "", timeout: int = 10, cached_ms: int = 0):
         self._host = host
         self._port = port
         self._apikey = apikey
         self._apiurl = "http://%s:%s/api/xdevices.json?key=%s" % (str(host), str(port), str(apikey))
         self._timeout = timeout
+        self._cached_ms = cached_ms
+        self._cached = RT2_API_GET_LINK_CACHED
 
     @property
     def host(self):
@@ -59,13 +63,28 @@ class EcoDevicesRT2:
             pass
         return False
 
-    def get(self, command, command_value=None, command_entry=None):
+    def get(self, command, command_value=None, command_entry=None, cached_ms: int = None):
         """Get value from api : http://{host}:{port}/api/xdevices.json?key={apikey}&{command}={command_value},
         then get value {command_entry} in JSON response."""
         complete_command = command
         if (command_value is not None):
             complete_command = command + "=" + command_value
-        response = self._request(complete_command)
+        if (cached_ms is None):
+            cached_ms = self._cached_ms
+
+        response = None
+        now = datetime.now()
+        if (complete_command in self._cached and "last_call" in self._cached[complete_command]):
+            last_call = self._cached[complete_command]["last_call"]
+            if (now - last_call) / timedelta(milliseconds=1) <= cached_ms and "response" in self._cached[complete_command]:
+                response = self._cached[complete_command]["response"]
+
+        if response is None:
+            response = self._request(complete_command)
+            if complete_command in RT2_API_GET_LINK_CACHED:
+                self._cached[complete_command]["last_call"] = now
+                self._cached[complete_command]["response"] = response
+
         if command_entry is not None:
             if command_entry in response:
                 response = response.get(command_entry)

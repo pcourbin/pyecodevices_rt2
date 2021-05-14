@@ -2,7 +2,7 @@
 
 """Tests for `pyecodevices_rt2` package."""
 from click.testing import CliRunner
-
+from datetime import timedelta
 from pyecodevices_rt2 import EcoDevicesRT2, cli
 
 from pyecodevices_rt2.const import (
@@ -34,11 +34,23 @@ def test_ping():
     """Sample pytest test function with the pytest fixture as an argument."""
     if (ECORT2_APIKEY != ""):
         ecodevices = EcoDevicesRT2(ECORT2_HOST, ECORT2_PORT, ECORT2_APIKEY)
-        _LOGGER.debug("# ping")
         assert ecodevices.ping()
     else:
         _LOGGER.warning("""No host/apikey defined in environement variable for GCE Ecodevices RT2.
 Test 'ping' not started.""")
+    return ecodevices
+
+
+@pytest.fixture
+def test_cached():
+    ecodevices = None
+    """Sample pytest test function with the pytest fixture as an argument."""
+    if (ECORT2_APIKEY != ""):
+        ecodevices = EcoDevicesRT2(ECORT2_HOST, ECORT2_PORT, ECORT2_APIKEY, cached_ms=10000)
+        assert ecodevices.ping()
+    else:
+        _LOGGER.warning("""No host/apikey defined in environement variable for GCE Ecodevices RT2.
+Test 'cache' not started.""")
     return ecodevices
 
 
@@ -57,6 +69,27 @@ def test_ecodevicesrt2(test_ping):
             test_ping.get("Index", "All", "EcoDevicesRT2RequestError")
 
 
+def test_ecodevicesrt2_cached(test_cached):
+    if (test_cached is None):
+        _LOGGER.warning("No connexion. Test 'cached' not started.")
+    else:
+        cached_ms = test_cached._cached_ms
+        command_get = "Index=All"
+        test_cached.get(command_get, command_value=None, command_entry=PRODUCT_ENTRY) == PRODUCT_VALUE
+        last_call = test_cached._cached[command_get]["last_call"]
+        time.sleep(1)
+        test_cached.get(command_get, command_value=None, command_entry=PRODUCT_ENTRY) == PRODUCT_VALUE
+        assert last_call == test_cached._cached[command_get]["last_call"]
+        time.sleep(cached_ms / 1000)
+        test_cached.get(command_get, command_value=None, command_entry=PRODUCT_ENTRY) == PRODUCT_VALUE
+        assert (test_cached._cached[command_get]["last_call"] - last_call) / timedelta(milliseconds=1) > cached_ms
+        last_call = test_cached._cached[command_get]["last_call"]
+        time.sleep(2)
+        test_cached.get(command_get, command_value=None, command_entry=PRODUCT_ENTRY, cached_ms=0) == PRODUCT_VALUE
+        duration = (test_cached._cached[command_get]["last_call"] - last_call) / timedelta(milliseconds=1)
+        assert duration < cached_ms and duration > 0
+
+
 def test_counter(test_ping):
     from pyecodevices_rt2 import Counter
 
@@ -67,7 +100,9 @@ def test_counter(test_ping):
         for x in range(1, 13):
             test = Counter(test_ping, x)
             assert isinstance(test.value, int)
+            assert isinstance(test.get_value(1), int)
             assert isinstance(test.price, (int, float))
+            assert isinstance(test.get_price(1), (int, float))
 
         test = Counter(test_ping, 1)
         actual = test.value
