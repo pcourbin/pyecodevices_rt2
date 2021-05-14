@@ -23,6 +23,22 @@ pyecodevices-rt2 - Python `GCE Ecodevices RT2`_
 .. image:: https://codecov.io/gh/pcourbin/pyecodevices_rt2/branch/main/graph/badge.svg
      :target: https://codecov.io/gh/pcourbin/pyecodevices_rt2
 
+.. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen
+     :target: `pre-commit`_
+     :alt: pre-commit
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+     :target: `black`_
+     :alt: Black
+
+.. image:: https://img.shields.io/badge/maintainer-%40pcourbin-blue.svg
+     :target: `user_profile`_
+     :alt: Project Maintenance
+
+.. image:: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg
+     :target: `buymecoffee`_
+     :alt: BuyMeCoffee
+
 | Get information from `GCE Ecodevices RT2`_.
 
 This work is originally developed for use with `Home Assistant`_ and the *custom component* `ecodevices_rt2`_.
@@ -69,3 +85,7 @@ Credits
 .. _`Home Assistant`: https://www.home-assistant.io/
 .. _`ecodevices_rt2`: https://github.com/pcourbin/ecodevices_rt2
 .. _`Aohzan`: https://github.com/Aohzan/pyecodevices
+.. _`pre-commit`: https://github.com/pre-commit/pre-commit
+.. _`black`: https://github.com/psf/black
+.. _`user_profile`: https://github.com/pcourbin
+.. _`buymecoffee`: https://www.buymeacoffee.com/pcourbin
