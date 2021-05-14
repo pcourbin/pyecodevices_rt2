@@ -1,82 +1,125 @@
 PRODUCT_ENTRY = "product"
 PRODUCT_VALUE = "EcoDevices_RT"
 
+INDEX_GET_LINK = "Index=All"
 RESPONSE_ENTRY = "status"
 RESPONSE_SUCCESS_VALUE = "Success"
 
-ENOCEAN_GET_LINK = "Get=XENO"
-ENOCEAN_SWITCH_GET_ENTRY = "ENO ACTIONNEUR%d"
-ENOCEAN_SENSOR_GET_ENTRY = "ENO ANALOG%d"
-ENOCEAN_SWITCH_ON_LINK = "SetEnoPC=%d"
-ENOCEAN_SWITCH_OFF_LINK = "ClearEnoPC=%d"
-ENOCEAN_SWITCH_TOGGLE_LINK = "ToggleEnoPC=%d"
-
-PRICE_GET_LINK = "Price=all"
-
-INDEX_GET_LINK = "Index=All"
-
-TOROID_GET_CONSUMPTION_ENTRY = "Index_TORE_Cons%d"
-TOROID_GET_PRODUCTION_ENTRY = "Index_TORE_Dist%d"
-TOROID_GET_ENTRY = "Index_TORE%d"
-TOROID_PRICE_GET_CONSUMPTION_ENTRY = "Price_TORE_Cons%d"
-TOROID_PRICE_GET_PRODUCTION_ENTRY = "Price_TORE_Dist%d"
-TOROID_PRICE_GET_ENTRY = "Price_TORE%d"
-
-RELAY_GET_LINK = "Get=R"
-RELAY_GET_ENTRY = "R%d"
-RELAY_ON_LINK = "SetR=%02d"
-RELAY_OFF_LINK = "ClearR=%02d"
-RELAY_TOGGLE_LINK = "ToggleR=%02d"
-
-VIRTUAL_OUTPUT_GET_LINK = "Get=VO"
-VIRTUAL_OUTPUT_GET_ENTRY = "VO%d"
-VIRTUAL_OUTPUT_ON_LINK = "SetVO=%03d"
-VIRTUAL_OUTPUT_OFF_LINK = "ClearVO=%03d"
-VIRTUAL_OUTPUT_TOGGLE_LINK = "ToggleVO=%03d"
-
-DIGITAL_INPUT_GET_LINK = "Get=D"
-DIGITAL_INPUT_GET_ENTRY = "D%d"
-
-XTHL_GET_LINK = "Get=XTHL"
-XTHL_GET_TMP_ENTRY = "THL%d-TEMP"
-XTHL_GET_HUM_ENTRY = "THL%d-HUM"
-XTHL_GET_LUM_ENTRY = "THL%d-LUM"
-
-X4FP_GET_LINK = "Get=FP"
-X4FP_GET_ENTRY = "FP%d Zone %d"
-X4FP_SET_MODE_LINK = "SetFP%02d=%d"
-
-X4FP_TO_VALUE = {
-    0: -1,
-    "Confort": 0,
-    "Eco": 1,
-    "Hors Gel": 2,
-    "Arret": 3,
-    "Confort -1": 4,
-    "Confort -2": 5
+RT2_API_GET_LINK_CACHED = {
+    "Get=D": {},
+    "Get=R": {},
+    "Get=S": {},
+    "Get=VO": {},
+    "Get=FP": {},
+    "Get=XENO": {},
+    "Get=XTHL": {},
+    "Index=All": {},
+    "Index=S": {},
+    "DIndex=S": {},
+    "Price=S": {},
+    "DPrice=S": {},
+    "Price=E": {},
+    "Price=all": {},
 }
 
-COUNTER_GET_LINK = "Get=C"
-COUNTER_GET_ENTRY = "C%d"
-COUNTER_SET_LINK = "SetC%02d=%s"
-COUNTER_PRICE_GET_ENTRY = "Price_C%d"
 
-INDEX_SUPPLIER_GET_ENTRY = "Index_TI%d"
-PRICE_SUPPLIER_GET_LINK = "Price=E"
-PRICE_SUPPLIER_GET_ENTRY = "Price_TI%d"
-
-POST_INSTANT_GET_LINK = "Get=S"
-POST_INSTANT_GET_ENTRY = "INSTANT_POSTE%d"
-SUBPOST_INSTANT_GET_ENTRY = "P%d_SSP%d"
-POST_INDEX_GET_LINK = "Index=S"
-POST_INDEX_GET_ENTRY = "INDEX_POSTE%d"
-SUBPOST_INDEX_GET_ENTRY = "P%d_SSP%d"
-POST_INDEX_DAY_GET_LINK = "DIndex=S"
-POST_INDEX_DAY_GET_ENTRY = "DAY_INDEX_POSTE%d"
-SUBPOST_INDEX_DAY_GET_ENTRY = "P%d_SSP%d"
-POST_PRICE_GET_LINK = "Price=S"
-POST_PRICE_GET_ENTRY = "PRICE_POSTE%d"
-SUBPOST_PRICE_GET_ENTRY = "P%d_SSP%d"
-POST_PRICE_DAY_GET_LINK = "DPrice=S"
-POST_PRICE_DAY_GET_ENTRY = "DAY_PRICE_POSTE%d"
-SUBPOST_PRICE_DAY_GET_ENTRY = "P%d_SSP%d"
+RT2_API = {
+    "counter": {
+        "value": {
+            "get": {"link": "Index=all", "entry": "Index_C%d"},
+            "set": {"link": "SetC%02d=%s"},
+        },
+        "price": {"get": {"link": "Price=all", "entry": "Price_C%d"}},
+    },
+    "digitalinput": {"status": {"get": {"link": "Get=D", "entry": "D%d"}}},
+    "enocean_sensor": {"value": {"get": {"link": "Get=XENO", "entry": "ENO ANALOG%d"}}},
+    "enocean_switch": {
+        "value": {
+            "get": {"link": "Get=XENO", "entry": "ENO ACTIONNEUR%d"},
+            "set": {
+                "link_on": "SetEnoPC=%d",
+                "link_off": "ClearEnoPC=%d",
+                "link_toggle": "ToggleEnoPC=%d",
+            },
+        }
+    },
+    "post": {
+        "instant": {"get": {"link": "Get=S", "entry": "INSTANT_POSTE%d%s"}},
+        "index": {"get": {"link": "Index=S", "entry": "INDEX_POSTE%d%s"}},
+        "index_day": {"get": {"link": "DIndex=S", "entry": "DAY_INDEX_POSTE%d%s"}},
+        "price": {"get": {"link": "Price=S", "entry": "PRICE_POSTE%d%s"}},
+        "price_day": {"get": {"link": "DPrice=S", "entry": "DAY_PRICE_POSTE%d%s"}},
+    },
+    "subpost": {
+        "instant": {"get": {"link": "Get=S", "entry": "P%d_SSP%d"}},
+        "index": {"get": {"link": "Index=S", "entry": "P%d_SSP%d"}},
+        "index_day": {"get": {"link": "DIndex=S", "entry": "P%d_SSP%d"}},
+        "price": {"get": {"link": "Price=S", "entry": "P%d_SSP%d"}},
+        "price_day": {"get": {"link": "DPrice=S", "entry": "P%d_SSP%d"}},
+    },
+    "relay": {
+        "value": {
+            "get": {"link": "Get=R", "entry": "R%d"},
+            "set": {
+                "link_on": "SetR=%02d",
+                "link_off": "ClearR=%02d",
+                "link_toggle": "ToggleR=%02d",
+            },
+        }
+    },
+    "supplierindex": {
+        "index": {"get": {"link": "Index=All", "entry": "Index_TI%d"}},
+        "price": {"get": {"link": "Price=E", "entry": "Price_TI%d"}},
+    },
+    "toroid": {
+        "index": {
+            "get": {"link": "Index=All", "entry": "Index_TORE%d"},
+        },
+        "index_consumption": {
+            "get": {"link": "Index=All", "entry": "Index_TORE_Cons%d"},
+        },
+        "index_production": {
+            "get": {"link": "Index=All", "entry": "Index_TORE_Dist%d"},
+        },
+        "price": {"get": {"link": "Price=all", "entry": "Price_TORE%d"}},
+        "price_consumption": {
+            "get": {"link": "Price=all", "entry": "Price_TORE_Cons%d"}
+        },
+        "price_production": {
+            "get": {"link": "Price=all", "entry": "Price_TORE_Dist%d"}
+        },
+    },
+    "virtualoutput": {
+        "value": {
+            "get": {"link": "Get=VO", "entry": "VO%d"},
+            "set": {
+                "link_on": "SetVO=%03d",
+                "link_off": "ClearVO=%03d",
+                "link_toggle": "ToggleVO=%03d",
+            },
+        }
+    },
+    "x4fp": {
+        "value": {
+            "get": {
+                "link": "Get=FP",
+                "entry": "FP%d Zone %d",
+                "convert": {
+                    0: -1,
+                    "Confort": 0,
+                    "Eco": 1,
+                    "Hors Gel": 2,
+                    "Arret": 3,
+                    "Confort -1": 4,
+                    "Confort -2": 5,
+                },
+            },
+            "set": {"link": "SetFP%02d=%d"},
+        }
+    },
+    "xthl": {
+        "temperature": {"get": {"link": "Get=XTHL", "entry": "THL%d-TEMP"}},
+        "humidity": {"get": {"link": "Get=XTHL", "entry": "THL%d-HUM"}},
+        "luminosity": {"get": {"link": "Get=XTHL", "entry": "THL%d-LUM"}},
+    },
+}

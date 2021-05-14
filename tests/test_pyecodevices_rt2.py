@@ -1,24 +1,20 @@
 #!/usr/bin/env python
-
 """Tests for `pyecodevices_rt2` package."""
+import logging
+import os
+import time
+from datetime import timedelta
+
+import pytest
 from click.testing import CliRunner
-
-from pyecodevices_rt2 import EcoDevicesRT2, cli
-
-from pyecodevices_rt2.const import (
-    PRODUCT_ENTRY,
-    PRODUCT_VALUE
-)
-
+from dotenv import load_dotenv
+from pyecodevices_rt2 import cli
+from pyecodevices_rt2 import EcoDevicesRT2
+from pyecodevices_rt2.const import PRODUCT_ENTRY
+from pyecodevices_rt2.const import PRODUCT_VALUE
 from pyecodevices_rt2.exceptions import (
     EcoDevicesRT2RequestError,
 )
-
-import pytest
-import os
-from dotenv import load_dotenv
-import logging
-import time
 
 _LOGGER = logging.getLogger(__name__)
 load_dotenv()
@@ -32,18 +28,36 @@ ECORT2_APIKEY = os.environ.get("ECORT2_APIKEY", "")
 def test_ping():
     ecodevices = None
     """Sample pytest test function with the pytest fixture as an argument."""
-    if (ECORT2_APIKEY != ""):
+    if ECORT2_APIKEY != "":
         ecodevices = EcoDevicesRT2(ECORT2_HOST, ECORT2_PORT, ECORT2_APIKEY)
-        _LOGGER.debug("# ping")
         assert ecodevices.ping()
     else:
-        _LOGGER.warning("""No host/apikey defined in environement variable for GCE Ecodevices RT2.
-Test 'ping' not started.""")
+        _LOGGER.warning(
+            """No host/apikey defined in environement variable for GCE Ecodevices RT2.
+Test 'ping' not started."""
+        )
+    return ecodevices
+
+
+@pytest.fixture
+def test_cached():
+    ecodevices = None
+    """Sample pytest test function with the pytest fixture as an argument."""
+    if ECORT2_APIKEY != "":
+        ecodevices = EcoDevicesRT2(
+            ECORT2_HOST, ECORT2_PORT, ECORT2_APIKEY, cached_ms=10000
+        )
+        assert ecodevices.ping()
+    else:
+        _LOGGER.warning(
+            """No host/apikey defined in environement variable for GCE Ecodevices RT2.
+Test 'cache' not started."""
+        )
     return ecodevices
 
 
 def test_ecodevicesrt2(test_ping):
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'Counter' not started.")
     else:
         assert isinstance(test_ping.host, str)
@@ -57,17 +71,52 @@ def test_ecodevicesrt2(test_ping):
             test_ping.get("Index", "All", "EcoDevicesRT2RequestError")
 
 
+def test_ecodevicesrt2_cached(test_cached):
+    if test_cached is None:
+        _LOGGER.warning("No connexion. Test 'cached' not started.")
+    else:
+        cached_ms = test_cached._cached_ms
+        command_get = "Index=All"
+        test_cached.get(
+            command_get, command_value=None, command_entry=PRODUCT_ENTRY
+        ) == PRODUCT_VALUE
+        last_call = test_cached._cached[command_get]["last_call"]
+        time.sleep(1)
+        test_cached.get(
+            command_get, command_value=None, command_entry=PRODUCT_ENTRY
+        ) == PRODUCT_VALUE
+        assert last_call == test_cached._cached[command_get]["last_call"]
+        time.sleep(cached_ms / 1000)
+        test_cached.get(
+            command_get, command_value=None, command_entry=PRODUCT_ENTRY
+        ) == PRODUCT_VALUE
+        assert (test_cached._cached[command_get]["last_call"] - last_call) / timedelta(
+            milliseconds=1
+        ) > cached_ms
+        last_call = test_cached._cached[command_get]["last_call"]
+        time.sleep(2)
+        test_cached.get(
+            command_get, command_value=None, command_entry=PRODUCT_ENTRY, cached_ms=0
+        ) == PRODUCT_VALUE
+        duration = (
+            test_cached._cached[command_get]["last_call"] - last_call
+        ) / timedelta(milliseconds=1)
+        assert duration < cached_ms and duration > 0
+
+
 def test_counter(test_ping):
     from pyecodevices_rt2 import Counter
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'Counter' not started.")
     else:
         wait = 1
         for x in range(1, 13):
             test = Counter(test_ping, x)
             assert isinstance(test.value, int)
+            assert isinstance(test.get_value(1), int)
             assert isinstance(test.price, (int, float))
+            assert isinstance(test.get_price(1), (int, float))
 
         test = Counter(test_ping, 1)
         actual = test.value
@@ -93,7 +142,7 @@ def test_counter(test_ping):
 def test_digitalinput(test_ping):
     from pyecodevices_rt2 import DigitalInput
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'DigitalInput' not started.")
     else:
         # Test posts
@@ -105,7 +154,7 @@ def test_digitalinput(test_ping):
 def test_enocean(test_ping):
     from pyecodevices_rt2 import EnOceanSensor, EnOceanSwitch
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'EnOcean' not started.")
     else:
         wait = 5
@@ -144,7 +193,7 @@ def test_enocean(test_ping):
 def test_post(test_ping):
     from pyecodevices_rt2 import Post
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'Post' not started.")
     else:
         # Test posts
@@ -170,7 +219,7 @@ def test_post(test_ping):
 def test_relay(test_ping):
     from pyecodevices_rt2 import Relay
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'Relay' not started.")
     else:
         wait = 1
@@ -205,7 +254,7 @@ def test_relay(test_ping):
 def test_supplierindex(test_ping):
     from pyecodevices_rt2 import SupplierIndex
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'SupplierIndex' not started.")
     else:
         for x in range(1, 9):
@@ -217,7 +266,7 @@ def test_supplierindex(test_ping):
 def test_toroid(test_ping):
     from pyecodevices_rt2 import Toroid
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'Toroid' not started.")
     else:
         for x in range(1, 5):
@@ -257,7 +306,7 @@ def test_toroid(test_ping):
 def test_virtualoutput(test_ping):
     from pyecodevices_rt2 import VirtualOutput
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'VirtualOutput' not started.")
     else:
         for x in range(1, 129):
@@ -268,7 +317,7 @@ def test_virtualoutput(test_ping):
 def test_x4fp(test_ping):
     from pyecodevices_rt2 import X4FP
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'X4FP' not started.")
     else:
         wait = 5
@@ -295,7 +344,7 @@ def test_x4fp(test_ping):
 def test_xthl(test_ping):
     from pyecodevices_rt2 import XTHL
 
-    if (test_ping is None):
+    if test_ping is None:
         _LOGGER.warning("No connexion. Test 'XTHL' not started.")
     else:
         for x in range(1, 3):
@@ -310,7 +359,7 @@ def test_command_line_interface():
     runner = CliRunner()
     result = runner.invoke(cli.main)
     assert result.exit_code == 0
-    assert 'pyecodevices_rt2.cli.main' in result.output
-    help_result = runner.invoke(cli.main, ['--help'])
+    assert "pyecodevices_rt2.cli.main" in result.output
+    help_result = runner.invoke(cli.main, ["--help"])
     assert help_result.exit_code == 0
-    assert '--help  Show this message and exit.' in help_result.output
+    assert "--help  Show this message and exit." in help_result.output

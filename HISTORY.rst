@@ -2,6 +2,11 @@
 History
 =======
 
+1.2.0 (2021-05-14)
+------------------
+
+* Add "cached" possibilities to reduce the number of call to the API.
+* The cached possibilities can be defined directly to the ecodevices_rt2 object (applicable to each call), or to a specific call on a property.
 
 1.1.0 (2021-04-17)
 ------------------
@@ -13,7 +18,7 @@ History
 1.0.1 (2021-04-12)
 ------------------
 
-* Update package with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template. 
+* Update package with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
 1.0.0 (2021-04-08)
 ------------------

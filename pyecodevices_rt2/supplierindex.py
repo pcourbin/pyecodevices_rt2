@@ -1,23 +1,26 @@
-from . import EcoDevicesRT2, AbstractSensor
-
-from .const import (
-    INDEX_GET_LINK,
-    INDEX_SUPPLIER_GET_ENTRY,
-    PRICE_SUPPLIER_GET_LINK,
-    PRICE_SUPPLIER_GET_ENTRY
-)
+from . import AbstractSensor
+from . import EcoDevicesRT2
+from .const import RT2_API
 
 
 class SupplierIndex(AbstractSensor):
-    """Class representing the SupplierIndex """
+    """Class representing the SupplierIndex"""
 
     def __init__(self, ecort2: EcoDevicesRT2, id: int) -> None:
-        super(SupplierIndex, self).__init__(
-            ecort2, id,
-            INDEX_GET_LINK, INDEX_SUPPLIER_GET_ENTRY)
+        value_get_link = RT2_API["supplierindex"]["index"]["get"]["link"]
+        value_get_entry = RT2_API["supplierindex"]["index"]["get"]["entry"]
+        super(SupplierIndex, self).__init__(ecort2, id, value_get_link, value_get_entry)
+
+        self._price_get_link = RT2_API["supplierindex"]["price"]["get"]["link"]
+        self._price_get_entry = RT2_API["supplierindex"]["price"]["get"]["entry"] % (
+            self._id
+        )
+
+    def get_price(self, cached_ms: int = None) -> float:
+        """Return the price of supplier index."""
+        response = self._ecort2.get(self._price_get_link, cached_ms=cached_ms)
+        return response[self._price_get_entry]
 
     @property
     def price(self) -> float:
-        """Return the price of supplier index."""
-        response = self._ecort2.get(PRICE_SUPPLIER_GET_LINK)
-        return response[PRICE_SUPPLIER_GET_ENTRY % (self._id)]
+        return self.get_price()
