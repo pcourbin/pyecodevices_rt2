@@ -26,7 +26,7 @@ RT2_API_GET_LINK_CACHED = {
 RT2_API = {
     "counter": {
         "value": {
-            "get": {"link": "Index=all", "entry": "Index_C%d"},
+            "get": {"link": "Index=All", "entry": "Index_C%d"},
             "set": {"link": "SetC%02d=%s"},
         },
         "price": {"get": {"link": "Price=all", "entry": "Price_C%d"}},
