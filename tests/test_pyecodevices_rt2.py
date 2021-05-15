@@ -3,6 +3,7 @@
 import logging
 import os
 import time
+from datetime import datetime
 from datetime import timedelta
 
 import pytest
@@ -102,6 +103,14 @@ def test_ecodevicesrt2_cached(test_cached):
             test_cached._cached[command_get]["last_call"] - last_call
         ) / timedelta(milliseconds=1)
         assert duration < cached_ms and duration > 0
+
+        last_call = datetime.now()
+        test_cached.get_all_cached()
+        for command in test_cached._cached:
+            duration = (
+                test_cached._cached[command]["last_call"] - last_call
+            ) / timedelta(milliseconds=1)
+            assert duration < 4000 and duration > 0
 
 
 def test_counter(test_ping):

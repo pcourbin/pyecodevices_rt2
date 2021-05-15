@@ -54,6 +54,12 @@ You can defined a maximum value (in milliseconds) during which you consider an A
     print("Current value: %d" % test.get_value(cached_ms=2000)) # Do not call the API if the last value was retrieved less than 2s (2000ms) ago
     print("Current price: %d" % test.get_price(cached_ms=2000)) # Do not call the API if the last value was retrieved less than 2s (2000ms) ago
 
+    # Force to get all values for all requests defined in ecodevices._cached (see consts.RT2_API_GET_LINK_CACHED to default requests cached)
+    ecodevices.get_all_cached()
+    print("Current value: %d" % test.value) # Do not call the API since the last value may be retrieved less than 1s (1000ms) ago
+
+
+
 
 
 Advanced/API usage

@@ -79,6 +79,10 @@ class EcoDevicesRT2:
             pass
         return False
 
+    def get_all_cached(self):
+        for complete_command in self._cached:
+            self.get(complete_command, cached_ms=0)
+
     def get(
         self, command, command_value=None, command_entry=None, cached_ms: int = None
     ):
@@ -104,7 +108,7 @@ class EcoDevicesRT2:
 
         if response is None:
             response = self._request(complete_command)
-            if complete_command in RT2_API_GET_LINK_CACHED:
+            if complete_command in self._cached:
                 self._cached[complete_command]["last_call"] = now
                 self._cached[complete_command]["response"] = response
 

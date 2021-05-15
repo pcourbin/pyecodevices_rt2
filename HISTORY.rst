@@ -2,6 +2,11 @@
 History
 =======
 
+1.2.1 (2021-05-15)
+------------------
+
+* Add "get_all_cached" function to call all resquests to get a cached value.
+
 1.2.0 (2021-05-14)
 ------------------
 
