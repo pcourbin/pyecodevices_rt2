@@ -102,9 +102,10 @@ class EcoDevicesRT2:
             and "last_call" in self._cached[complete_command]
         ):
             last_call = self._cached[complete_command]["last_call"]
-            if (now - last_call) / timedelta(
-                milliseconds=1
-            ) <= cached_ms and "response" in self._cached[complete_command]:
+            if (
+                cached_ms < 0
+                or ((now - last_call) / timedelta(milliseconds=1) <= cached_ms)
+            ) and "response" in self._cached[complete_command]:
                 response = self._cached[complete_command]["response"]
 
         if response is None and cached_ms < 0:
