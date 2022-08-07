@@ -2,6 +2,11 @@
 History
 =======
 
+1.3.1 (2022-08-07)
+------------------
+
+* Add option with cached_ms<0 to force use the cache, or return None
+
 1.3.0 (2022-08-07)
 ------------------
 
