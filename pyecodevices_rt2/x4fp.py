@@ -27,7 +27,11 @@ class X4FP:
     def get_mode(self, cached_ms: int = None) -> int:
         """Return the current X4FP mode."""
         response = self._ecort2.get(self._value_get_link, cached_ms=cached_ms)
-        return self._value_get_convert[response[self._value_get_entry]]
+        return (
+            self._value_get_convert[response[self._value_get_entry]]
+            if (self._value_get_entry) in response
+            else None
+        )
 
     @property
     def mode(self) -> int:

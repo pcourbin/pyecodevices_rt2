@@ -17,7 +17,11 @@ class Toroid:
     def get_value(self, cached_ms: int = None) -> float:
         """Return the index of toroid."""
         response = self._ecort2.get(self._index_get_link, cached_ms=cached_ms)
-        return response[self._index_get_entry]
+        return (
+            response[self._index_get_entry]
+            if (self._index_get_entry) in response
+            else None
+        )
 
     @property
     def value(self) -> float:
@@ -26,7 +30,11 @@ class Toroid:
     def get_price(self, cached_ms: int = None) -> float:
         """Return the price of toroid."""
         response = self._ecort2.get(self._price_get_link, cached_ms=cached_ms)
-        return response[self._price_get_entry]
+        return (
+            response[self._price_get_entry]
+            if (self._price_get_entry) in response
+            else None
+        )
 
     @property
     def price(self) -> float:

@@ -82,6 +82,7 @@ class EcoDevicesRT2:
     def get_all_cached(self):
         for complete_command in self._cached:
             self.get(complete_command, cached_ms=0)
+        return self._cached
 
     def get(
         self, command, command_value=None, command_entry=None, cached_ms: int = None
@@ -105,6 +106,9 @@ class EcoDevicesRT2:
                 milliseconds=1
             ) <= cached_ms and "response" in self._cached[complete_command]:
                 response = self._cached[complete_command]["response"]
+
+        if response is None and cached_ms < 0:
+            response = {}
 
         if response is None:
             response = self._request(complete_command)

@@ -19,7 +19,11 @@ class Counter:
     def get_value(self, cached_ms: int = None) -> int:
         """Return the current Counter value."""
         response = self._ecort2.get(self._value_get_link, cached_ms=cached_ms)
-        return response[self._value_get_entry]
+        return (
+            response[self._value_get_entry]
+            if (self._value_get_entry) in response
+            else None
+        )
 
     @property
     def value(self) -> int:
@@ -44,7 +48,11 @@ class Counter:
     def get_price(self, cached_ms: int = None) -> float:
         """Return the price of counter."""
         response = self._ecort2.get(self._price_get_link, cached_ms=cached_ms)
-        return response[self._price_get_entry]
+        return (
+            response[self._price_get_entry]
+            if (self._price_get_entry) in response
+            else None
+        )
 
     @property
     def price(self, cached_ms: int = None) -> float:

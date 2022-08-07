@@ -46,7 +46,11 @@ class Post:
     def get_instant(self, cached_ms: int = None) -> float:
         """Return the instant power of post/subpost."""
         response = self._ecort2.get(self._instant_get_link, cached_ms=cached_ms)
-        return response[self._instant_get_entry]
+        return (
+            response[self._instant_get_entry]
+            if (self._instant_get_entry) in response
+            else None
+        )
 
     @property
     def instant(self) -> float:
@@ -55,7 +59,11 @@ class Post:
     def get_index(self, cached_ms: int = None) -> float:
         """Return the index of post/subpost."""
         response = self._ecort2.get(self._index_get_link, cached_ms=cached_ms)
-        return response[self._index_get_entry]
+        return (
+            response[self._index_get_entry]
+            if (self._index_get_entry) in response
+            else None
+        )
 
     @property
     def index(self) -> float:
@@ -64,7 +72,11 @@ class Post:
     def get_index_day(self, cached_ms: int = None) -> float:
         """Return the index of the current day of post/subpost."""
         response = self._ecort2.get(self._index_day_get_link, cached_ms=cached_ms)
-        return response[self._index_day_get_entry]
+        return (
+            response[self._index_day_get_entry]
+            if (self._index_day_get_entry) in response
+            else None
+        )
 
     @property
     def index_day(self) -> float:
@@ -73,7 +85,11 @@ class Post:
     def get_price(self, cached_ms: int = None) -> float:
         """Return the price of post/subpost."""
         response = self._ecort2.get(self._price_get_link, cached_ms=cached_ms)
-        return response[self._price_get_entry]
+        return (
+            response[self._price_get_entry]
+            if (self._price_get_entry) in response
+            else None
+        )
 
     @property
     def price(self) -> float:
@@ -82,7 +98,11 @@ class Post:
     def get_price_day(self, cached_ms: int = None) -> float:
         """Return the price of the current day of post/subpost."""
         response = self._ecort2.get(self._price_day_get_link, cached_ms=cached_ms)
-        return response[self._price_day_get_entry]
+        return (
+            response[self._price_day_get_entry]
+            if (self._price_day_get_entry) in response
+            else None
+        )
 
     @property
     def price_day(self) -> float:

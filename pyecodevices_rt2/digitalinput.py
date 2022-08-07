@@ -16,7 +16,11 @@ class DigitalInput:
     def get_status(self, cached_ms: int = None) -> bool:
         """Return the current DigitalInput status."""
         response = self._ecort2.get(self._value_get_link, cached_ms=cached_ms)
-        return response[self._value_get_entry] == 1
+        return (
+            response[self._value_get_entry] == 1
+            if (self._value_get_entry) in response
+            else None
+        )
 
     @property
     def status(self) -> bool:

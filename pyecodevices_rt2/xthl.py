@@ -25,7 +25,11 @@ class XTHL:
     def get_temperature(self, cached_ms: int = None) -> bool:
         """Return the current XTHL temperature."""
         response = self._ecort2.get(self._temperature_get_link, cached_ms=cached_ms)
-        return response[self._temperature_get_entry]
+        return (
+            response[self._temperature_get_entry]
+            if (self._temperature_get_entry) in response
+            else None
+        )
 
     @property
     def temperature(self) -> bool:
@@ -34,7 +38,11 @@ class XTHL:
     def get_humidity(self, cached_ms: int = None) -> bool:
         """Return the current XTHL humidity."""
         response = self._ecort2.get(self._humidity_get_link, cached_ms=cached_ms)
-        return response[self._humidity_get_entry]
+        return (
+            response[self._humidity_get_entry]
+            if (self._humidity_get_entry) in response
+            else None
+        )
 
     @property
     def humidity(self) -> bool:
@@ -43,7 +51,11 @@ class XTHL:
     def get_luminosity(self, cached_ms: int = None) -> bool:
         """Return the current XTHL luminosity."""
         response = self._ecort2.get(self._luminosity_get_link, cached_ms=cached_ms)
-        return response[self._luminosity_get_entry]
+        return (
+            response[self._luminosity_get_entry]
+            if (self._luminosity_get_entry) in response
+            else None
+        )
 
     @property
     def luminosity(self) -> bool:

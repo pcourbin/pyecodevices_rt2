@@ -29,7 +29,11 @@ class AbstractSwitch:
     def get_status(self, cached_ms: int = None) -> bool:
         """Return the current AbstractSwitch status."""
         response = self._ecort2.get(self._get_link, cached_ms=cached_ms)
-        return response[self._get_entry % (self._id)] == 1
+        return (
+            response[self._get_entry % (self._id)] == 1
+            if (self._get_entry % (self._id)) in response
+            else None
+        )
 
     @property
     def status(self) -> bool:
