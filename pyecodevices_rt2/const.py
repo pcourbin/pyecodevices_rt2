@@ -72,22 +72,8 @@ RT2_API = {
         "price": {"get": {"link": "Price=E", "entry": "Price_TI%d"}},
     },
     "toroid": {
-        "index": {
-            "get": {"link": "Index=All", "entry": "Index_TORE%d"},
-        },
-        "index_consumption": {
-            "get": {"link": "Index=All", "entry": "Index_TORE_Cons%d"},
-        },
-        "index_production": {
-            "get": {"link": "Index=All", "entry": "Index_TORE_Dist%d"},
-        },
+        "index": {"get": {"link": "Index=All", "entry": "Index_TORE%d"}},
         "price": {"get": {"link": "Price=all", "entry": "Price_TORE%d"}},
-        "price_consumption": {
-            "get": {"link": "Price=all", "entry": "Price_TORE_Cons%d"}
-        },
-        "price_production": {
-            "get": {"link": "Price=all", "entry": "Price_TORE_Dist%d"}
-        },
     },
     "virtualoutput": {
         "value": {

@@ -59,7 +59,7 @@ Test 'cache' not started."""
 
 def test_ecodevicesrt2(test_ping):
     if test_ping is None:
-        _LOGGER.warning("No connexion. Test 'Counter' not started.")
+        _LOGGER.warning("No connexion. Test 'Default' not started.")
     else:
         assert isinstance(test_ping.host, str)
         assert isinstance(test_ping.apikey, str)
@@ -216,7 +216,7 @@ def test_post(test_ping):
 
         # Test subposts
         for x in range(1, 9):
-            for y in range(1, 9):
+            for y in range(1, 8):
                 test = Post(test_ping, x, y)
                 assert isinstance(test.index, (int, float))
                 assert isinstance(test.index_day, (int, float))
@@ -266,7 +266,7 @@ def test_supplierindex(test_ping):
     if test_ping is None:
         _LOGGER.warning("No connexion. Test 'SupplierIndex' not started.")
     else:
-        for x in range(1, 9):
+        for x in range(1, 8):
             test = SupplierIndex(test_ping, x)
             assert isinstance(test.value, (int, float))
             assert isinstance(test.price, (int, float))
@@ -278,38 +278,10 @@ def test_toroid(test_ping):
     if test_ping is None:
         _LOGGER.warning("No connexion. Test 'Toroid' not started.")
     else:
-        for x in range(1, 5):
+        for x in range(1, 21):
             test = Toroid(test_ping, x)
             assert isinstance(test.value, (int, float))
             assert isinstance(test.price, (int, float))
-            assert isinstance(test.consumption, (int, float))
-            assert isinstance(test.consumption_price, (int, float))
-            assert isinstance(test.production, (int, float))
-            assert isinstance(test.production_price, (int, float))
-
-        for x in range(5, 17):
-            test = Toroid(test_ping, x)
-            assert isinstance(test.value, (int, float))
-            assert isinstance(test.price, (int, float))
-
-        # Test default is production
-        test = Toroid(test_ping, 1, False)
-        assert isinstance(test.value, (int, float))
-        assert isinstance(test.price, (int, float))
-
-        # Test exceptions
-        with pytest.raises(EcoDevicesRT2RequestError):
-            test = Toroid(test_ping, 5, False)
-            assert isinstance(test.consumption, (int, float))
-        with pytest.raises(EcoDevicesRT2RequestError):
-            test = Toroid(test_ping, 5, False)
-            assert isinstance(test.consumption_price, (int, float))
-        with pytest.raises(EcoDevicesRT2RequestError):
-            test = Toroid(test_ping, 5, False)
-            assert isinstance(test.production, (int, float))
-        with pytest.raises(EcoDevicesRT2RequestError):
-            test = Toroid(test_ping, 5, False)
-            assert isinstance(test.production_price, (int, float))
 
 
 def test_virtualoutput(test_ping):
@@ -364,7 +336,7 @@ def test_xthl(test_ping):
 
 
 def test_command_line_interface():
-    """Test the CLI."""
+    # Test the CLI.
     runner = CliRunner()
     result = runner.invoke(cli.main)
     assert result.exit_code == 0

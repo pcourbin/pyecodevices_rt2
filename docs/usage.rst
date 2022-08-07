@@ -232,12 +232,6 @@ You can define a Toroid (see from the `GCE Ecodevices RT2 API`_ (or `PDF`_))::
     print("Value: %f" % test.value)
     print("Price: %f" % test.price)
 
-    # Only for toroid 1 to 4:
-    print("Consumption: %f" % test.consumption)
-    print("Consumption Price: %f" % test.consumption_price)
-    print("Production: %f" % test.production)
-    print("Production Price: %f" % test.production_price)
-
 
 VirtualOutput
 -------------
