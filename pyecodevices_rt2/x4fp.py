@@ -1,3 +1,5 @@
+import time
+
 from . import EcoDevicesRT2
 from .const import RESPONSE_ENTRY
 from .const import RESPONSE_SUCCESS_VALUE
@@ -40,7 +42,11 @@ class X4FP:
     @mode.setter
     def mode(self, value: int):
         """Change the current X4FP mode."""
-        response = self._ecort2.get(self._value_set_link % (self._fp_value, value))
+        response = self._ecort2.get(
+            self._value_set_link % (self._fp_value, value), cached_ms=0
+        )
+        time.sleep(0.01)
+        self.get_mode(cached_ms=0)
         if response[RESPONSE_ENTRY] != RESPONSE_SUCCESS_VALUE or value > 5:
             raise EcoDevicesRT2RequestError(
                 "Ecodevices RT2 API error, unable to change the mode for FP extention %d, Zone %d to %d"
