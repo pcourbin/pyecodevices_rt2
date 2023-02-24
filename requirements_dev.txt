@@ -10,7 +10,7 @@ twine>=1.14.0
 Click==8.0.2
 pytest==7.1.2
 pytest-runner==6.0.0
-python-dotenv==0.17.0
+python-dotenv==1.0.0
 pre-commit
 black
 reorder-python-imports
