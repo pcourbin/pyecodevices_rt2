@@ -13,4 +13,4 @@ pytest-runner==6.0.0
 python-dotenv==1.0.0
 pre-commit==3.3.3
 black==23.7.0
-reorder-python-imports==3.10.0
+reorder-python-imports==3.12.0
